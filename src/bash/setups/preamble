@@ -7,6 +7,8 @@ echo '--- CI Preamble ------------------------------------------------------';
 echo;
 echo 'Run vars: '"${CI_RUN}";
 echo;
+echo 'Bash Version: '"${BASH_VERSION}";
+echo;
 echo 'PHP Version: '"${CI_RUN_PHP_VERSION}";
 echo 'PHP Version Name: '"${CI_RUN_PHP_VERSION_NAME}";
 echo;
