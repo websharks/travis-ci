@@ -2,4 +2,4 @@
 
 # Start Nginx w/ custom config file.
 
-nginx -c ~/ws/repos/travis-ci/src/nginx/.conf &>/dev/null;
+nginx -c ~/ws/repos/travis-ci/src/nginx/.conf;
