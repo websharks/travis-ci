@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
-set -o errexit;
+# Clone Travis CI repo.
+mkdir --parents ~/ws/repos &>/dev/null || exit 1;
+git clone https://github.com/websharks/travis-ci ~/ws/repos/travis-ci --branch=master --depth=1 &>/dev/null || exit 1;
 
-mkdir --parents ~/ws/repos &>/dev/null;
-git clone https://github.com/websharks/travis-ci ~/ws/repos/travis-ci --branch=master --depth=1 &>/dev/null;
+# Run setup scripts.
+. ~/ws/repos/travis-ci/src/setup.bash;
 
-. ~/ws/repos/travis-ci/src/travis.bash;
+# Custom code reinserted here via [custom] marker. Add your <custom></custom> comment markers here please.
+
+# Run build now; i.e., Phing, etc.
+. ~/ws/repos/travis-ci/src/build.bash;

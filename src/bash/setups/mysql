@@ -2,7 +2,7 @@
 
 # Install MySQL database.
 
-mysql --user=root --execute="GRANT ALL ON *.* TO '${CI_CFG_MYSQL_DB_USERNAME}'@'localhost' IDENTIFIED BY '${CI_CFG_MYSQL_DB_PASSWORD}';" &>/dev/null;
+mysql --user=root --execute="GRANT ALL ON *.* TO '${CI_CFG_MYSQL_DB_USERNAME}'@'localhost' IDENTIFIED BY '${CI_CFG_MYSQL_DB_PASSWORD}';";
 mysql --user=root --execute="GRANT ALL ON *.* TO '${CI_CFG_MYSQL_DB_USERNAME}'@'${CI_CFG_MYSQL_DB_HOST}' IDENTIFIED BY '${CI_CFG_MYSQL_DB_PASSWORD}';" &>/dev/null;
 mysql --user=root --execute="CREATE DATABASE \`${CI_CFG_MYSQL_DB_NAME}\` CHARACTER SET '${CI_CFG_MYSQL_DB_CHARSET}' COLLATE '${CI_CFG_MYSQL_DB_COLLATE}';" &>/dev/null;
 mysql --user=root --execute="FLUSH PRIVILEGES;" &>/dev/null;
