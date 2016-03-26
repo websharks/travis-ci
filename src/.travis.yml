@@ -3,10 +3,7 @@ addons: # APT packages, etc.
     - ci.vm
   apt:
     packages:
-      - zip
-      - unzip
       - nginx
-      - gettext
       - postfix
       - libpspell-dev
   mariadb: '10.1'
