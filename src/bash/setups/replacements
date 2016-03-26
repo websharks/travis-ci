@@ -7,5 +7,6 @@ for _file in ~/ws/repos/travis-ci/**; do
     perl -i -0wpe 's/%%HOME%%/'"$(esc-regex-rv "${HOME}")"'/ug' "${_file}";
     perl -i -0wpe 's/%%USER%%/'"$(esc-regex-rv "${USER}")"'/ug' "${_file}";
     perl -i -0wpe 's/%%GROUP%%/'"$(esc-regex-rv "${USER}")"'/ug' "${_file}";
+    perl -i -0wpe 's/%%CI_CFG_BUILD_PORT%%/'"$(esc-regex-rv "${CI_CFG_BUILD_PORT}")"'/ug' "${_file}";
   fi;
 done; unset _file;
