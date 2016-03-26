@@ -6,7 +6,7 @@ addons: # APT packages, etc.
       - nginx
       - postfix
       - libpspell-dev
-  mariadb: '10.1'
+  mariadb: '10.0'
 
 services: # Services to start-up.
   - nginx
