@@ -2,4 +2,6 @@
 
 # Start Nginx w/ custom config file.
 
+touch ~/ws/logs/nginx/error.log;
+touch ~/ws/logs/nginx/access.log;
 nginx -c ~/ws/repos/travis-ci/src/nginx/.conf;
