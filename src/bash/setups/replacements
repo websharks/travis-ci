@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Process replacement codes in this repo.
+
+for _file in ~/ws/repos/travis-ci/**; do
+  if [[ -f "${_file}" && "${_file}" != "${BASH_SOURCE[0]}" ]]; then
+    perl -i -0wpe 's/%%HOME%%/'"$(esc-regex-rv "${HOME}")"'/ug' "${_file}";
+    perl -i -0wpe 's/%%USER%%/'"$(esc-regex-rv "${USER}")"'/ug' "${_file}";
+    perl -i -0wpe 's/%%GROUP%%/'"$(esc-regex-rv "${USER}")"'/ug' "${_file}";
+  fi;
+done; unset _file;

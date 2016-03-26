@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+# Build `pspell` extension via `phpize`.
+
+if [[ ! -d ~/ws/.persistent/repos/php-src-"${CI_RUN_PHP_VERSION}" ]]; then
+  git clone https://github.com/php/php-src ~/ws/.persistent/repos/php-src-"${CI_RUN_PHP_VERSION}" --branch=PHP-"${CI_RUN_PHP_VERSION}" --depth=1 &>/dev/null;
+fi;
+cp --force --recursive ~/ws/.persistent/repos/php-src-"${CI_RUN_PHP_VERSION}"/. ~/ws/repos/php-src-"${CI_RUN_PHP_VERSION}" &>/dev/null;
+
+cd ~/ws/repos/php-src-"${CI_RUN_PHP_VERSION}"/ext/pspell &>/dev/null;
+phpize &>/dev/null; ./configure &>/dev/null; make &>/dev/null; make install &>/dev/null;
+
+# Build the `php.ini` file w/ custom tweaks.
+# See: <https://docs.travis-ci.com/user/languages/php>
+
+phpenv config-rm xdebug.ini &>/dev/null;
+phpenv config-add ~/ws/repos/travis-ci/src/php/.ini &>/dev/null;
+
+# PHP-FPM environment variables.
+
+touch ~/ws/configs/php-fpm-env.conf &>/dev/null; # Initialize.
+
+readarray -t _env_kvs <<< "$(env)"; for _env_kv in "${_env_kvs[@]}"; do
+  _env_k="${_env_kv%%=*}"; _env_v="${_env_kv#*=}";
+  if [[ "${_env_k}" == 'CI' || "${_env_k}" =~ ^CI_CFG_ ]]; then
+    if [[ "${_env_v}" == '' ]]; then # FPM chokes on empty strings.
+      # Single spaces are handled by src/php/ap.php automatically.
+      echo "env[${_env_k}] = ' '" >> ~/ws/configs/php-fpm-env.conf;
+    else echo "env[${_env_k}] = '${_env_v}'" >> ~/ws/configs/php-fpm-env.conf; fi;
+  fi;
+done; unset _env_kvs; unset _env_kv; unset _env_k; unset _env_v;
+
+# Start PHP-FPM with custom configuration file.
+
+~/.phpenv/versions/"${CI_RUN_PHP_VERSION_NAME}"/sbin/php-fpm --fpm-config ~/ws/repos/travis-ci/src/php/fpm/.conf &>/dev/null;
+
+# Install utilities like Phing, PHP CS, APIGEN, etc.
+# Note: Composer & PHPUnit are already installed by Travis.
+
+if [[ ! -f ~/ws/.persistent/binaries/phing ]]; then
+  curl http://www.phing.info/get/phing-latest.phar --location --output ~/ws/.persistent/binaries/phing &>/dev/null;
+  chmod +x ~/ws/.persistent/binaries/phing &>/dev/null;
+fi;
+ln --symbolic ~/ws/.persistent/binaries/phing ~/bin/phing &>/dev/null;
+
+if [[ ! -f ~/ws/.persistent/binaries/phpcs ]]; then
+  curl https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar --location --output ~/ws/.persistent/binaries/phpcs &>/dev/null;
+  chmod +x ~/ws/.persistent/binaries/phpcs &>/dev/null;
+fi;
+ln --symbolic ~/ws/.persistent/binaries/phpcs ~/bin/phpcs &>/dev/null;
+
+if [[ ! -f ~/ws/.persistent/binaries/apigen ]]; then
+  curl http://apigen.org/apigen.phar --location --output ~/ws/.persistent/binaries/apigen &>/dev/null;
+  chmod +x ~/ws/.persistent/binaries/apigen &>/dev/null;
+fi;
+ln --symbolic ~/ws/.persistent/binaries/apigen ~/bin/apigen &>/dev/null;
+
+if [[ -n "${CI_RUN_WP}" ]]; then
+  if [[ ! -f ~/ws/.persistent/binaries/wp ]]; then
+    curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar --location --output ~/ws/.persistent/binaries/wp &>/dev/null;
+    chmod +x ~/ws/.persistent/binaries/wp &>/dev/null;
+  fi;
+  ln --symbolic ~/ws/.persistent/binaries/wp ~/bin/wp &>/dev/null;
+
+  echo '' > ~/ws/configs/wp-cli.yml;
+  echo 'user: '"${CI_CFG_WP_ADMIN}" >> ~/ws/configs/wp-cli.yml;
+  echo 'path: '"${CI_CFG_WP_DIR}" >> ~/ws/configs/wp-cli.yml;
+  echo 'url: '"${CI_CFG_WP_URL}" >> ~/ws/configs/wp-cli.yml;
+
+  mkdir --parents ~/.wp-cli &>/dev/null;
+  ln --symbolic ~/ws/configs/wp-cli.yml ~/.wp-cli/config.yml &>/dev/null;
+fi;

@@ -1,2 +1,1 @@
-# travis-ci
-Travis CI scripts.
+## Travis CI scripts.

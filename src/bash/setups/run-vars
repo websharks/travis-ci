@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Parse, export & satisfy CI run vars.
+
+IFS=','; read -r -a _ci_run <<< "${CI_RUN}";
+for _ci_run_var in "${_ci_run[@]}"; do
+    export CI_RUN_"${_ci_run_var%%=*}"="${_ci_run_var#*=}" &>/dev/null;
+done; unset _ci_run; unset _ci_run_var;
+
+export CI_RUN_PHP_VERSION; CI_RUN_PHP_VERSION="$(php -r 'echo PHP_VERSION;')" &>/dev/null;
+export CI_RUN_PHP_VERSION_NAME; CI_RUN_PHP_VERSION_NAME="$(phpenv version-name)" &>/dev/null;
+export CI_RUN_MYSQL_VERSION; CI_RUN_MYSQL_VERSION="$(mysql --version)" &>/dev/null;
+export CI_RUN_NGINX_VERSION; CI_RUN_NGINX_VERSION="$(nginx -v)" &>/dev/null;
+
+if [[ -n "${CI_RUN_WP}" ]]; then
+  if [[ -z "${CI_RUN_WP_VERSION}" || "${CI_RUN_WP_VERSION}" == 'latest' ]]; then
+    CI_RUN_WP_VERSION='$json = json_decode(file_get_contents("https://api.wordpress.org/core/version-check/1.7/"));';
+    CI_RUN_WP_VERSION+='echo !empty($json->offers[0]->version) ? $json->offers[0]->version : "";';
+    CI_RUN_WP_VERSION="$(php -r "${CI_RUN_WP_VERSION}")";
+  elif [[ "${CI_RUN_WP_VERSION}" == 'nightly' ]]; then
+    CI_RUN_WP_VERSION="$(date +%Y%m%d)"-nightly;
+  fi;
+fi;
