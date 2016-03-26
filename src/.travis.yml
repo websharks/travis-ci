@@ -69,8 +69,8 @@ env: # Define these last to allow for appends.
     - CI_CFG_MYSQL_DB_NAME=db0
 
     - CI_CFG_BUILD_HOST=ci.vm
-    - CI_CFG_BUILD_PORT=8080
-    - CI_CFG_BUILD_URL=http://ci.vm:8080
+    - CI_CFG_BUILD_PORT=9000
+    - CI_CFG_BUILD_URL=http://ci.vm:9000
     - CI_CFG_BUILD_DIR="${TRAVIS_BUILD_DIR}"
     - CI_CFG_BUILD_DIR_BASENAME="${CI_CFG_BUILD_DIR##*/}"
 
