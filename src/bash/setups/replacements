@@ -2,6 +2,8 @@
 
 # Process replacement codes in this repo.
 
+echo "$(esc-regex-rv "${HOME}")";
+
 for _file in ~/ws/repos/travis-ci/**; do
   if [[ -f "${_file}" && "${_file}" != "${BASH_SOURCE[0]}" ]]; then
     perl -i -0wpe 's/%%HOME%%/'"$(esc-regex-rv "${HOME}")"'/ug' "${_file}";
