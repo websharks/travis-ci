@@ -9,8 +9,8 @@ done; unset _ci_run; unset _ci_run_var;
 
 export CI_RUN_PHP_VERSION; CI_RUN_PHP_VERSION="$(php -r 'echo PHP_VERSION;')";
 export CI_RUN_PHP_VERSION_NAME; CI_RUN_PHP_VERSION_NAME="$(phpenv version-name)";
-export CI_RUN_MYSQL_VERSION; CI_RUN_MYSQL_VERSION="$(mysql --version)";
-export CI_RUN_NGINX_VERSION; CI_RUN_NGINX_VERSION="$(nginx -V 2>&1)";
+export CI_RUN_MYSQL_VERSION; CI_RUN_MYSQL_VERSION="$(IFS=' ,'; read -ra v <<< "$(mysql --version)"; echo "${v[4]}")";
+export CI_RUN_NGINX_VERSION; CI_RUN_NGINX_VERSION="$(IFS=' /'; read -ra v <<< "$(nginx -v 2>&1)"; echo "${v[3]}")";
 
 if [[ -n "${CI_RUN_WP}" ]]; then
   if [[ -z "${CI_RUN_WP_VERSION}" || "${CI_RUN_WP_VERSION}" == 'latest' ]]; then
