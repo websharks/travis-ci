@@ -44,13 +44,17 @@ if [[ -n "${CI_RUN_WP}" ]]; then
   echo 'WordPress Admin: '"${CI_CFG_WP_ADMIN}";
 fi;
 echo;
-
-echo '--- CI Environment Vars ----------------------------------------------';
+echo '--- CI Run Vars ------------------------------------------------------';
 echo;
 readarray -t _env_kvs <<< "$(env)"; for _env_kv in "${_env_kvs[@]}"; do
   _env_k="${_env_kv%%=*}"; _env_v="${_env_kv#*=}";
-  if [[ "${_env_k}" =~ ^CI_RUN_ || "${_env_k}" =~ ^CI_CFG_ ]]; then
-    echo "${_env_k}"'='"${_env_v}";
-  fi;
+  [[ "${_env_k}" =~ ^CI_RUN_ ]] && echo "${_env_k}"'='"${_env_v}";
+done; unset _env_kvs; unset _env_kv; unset _env_k; unset _env_v;
+echo;
+echo '--- CI Config Vars ---------------------------------------------------';
+echo;
+readarray -t _env_kvs <<< "$(env)"; for _env_kv in "${_env_kvs[@]}"; do
+  _env_k="${_env_kv%%=*}"; _env_v="${_env_kv#*=}";
+  [[ "${_env_k}" =~ ^CI_CFG_ ]] && echo "${_env_k}"'='"${_env_v}";
 done; unset _env_kvs; unset _env_kv; unset _env_k; unset _env_v;
 echo;

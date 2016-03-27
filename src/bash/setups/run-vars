@@ -11,7 +11,7 @@ export CI_RUN_PHP_VERSION; CI_RUN_PHP_VERSION="$(php -r 'echo PHP_VERSION;')";
 export CI_RUN_PHP_VERSION_NAME; CI_RUN_PHP_VERSION_NAME="$(phpenv version-name)";
 export CI_RUN_MYSQL_VERSION; CI_RUN_MYSQL_VERSION="$(IFS=' ,'; read -ra v <<< "$(mysql --version)"; echo "${v[4]}")";
 export CI_RUN_NGINX_VERSION; CI_RUN_NGINX_VERSION="$(IFS=' /'; read -ra v <<< "$(nginx -v 2>&1)"; echo "${v[3]}")";
-export CI_RUN_MEMCACHED_VERSION; CI_RUN_MEMCACHED_VERSION="$(read -r v <<< "$(memcached -h)"; echo "${v}")";
+export CI_RUN_MEMCACHED_VERSION; CI_RUN_MEMCACHED_VERSION="$(IFS=' '; read -ra v <<< "$(read -r v <<< "$(memcached -h)"; echo "${v}")"; echo "${v[1]}")";
 export CI_RUN_REDIS_VERSION; CI_RUN_REDIS_VERSION="$(IFS=' ='; read -ra v <<< "$(redis-server --version)"; echo "${v[3]}")";
 
 if [[ -n "${CI_RUN_WP}" ]]; then
