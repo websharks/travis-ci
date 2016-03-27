@@ -30,6 +30,7 @@
 . /bootstrap/src/setups/phpcs;
 . /bootstrap/src/setups/apigen;
 . /bootstrap/src/setups/composer;
+. /bootstrap/src/setups/phpunit;
 
 . /bootstrap/src/setups/wp-cli;
 . /bootstrap/src/setups/wordpress;
