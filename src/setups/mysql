@@ -2,11 +2,7 @@
 
 # Install MariaDB (i.e., MySQL).
 
-apt-get purge mysql* mariadb*; # Remove conflicts.
-
-echo 'Package: *' >> /etc/apt/preferences.d/mariadb.pref;
-echo 'Pin: origin nyc2.mirrors.digitalocean.com' >> /etc/apt/preferences.d/mariadb.pref;
-echo 'Pin-Priority: 1001' >> /etc/apt/preferences.d/mariadb.pref;
+apt-get purge 'mysql*' 'mariadb*'; # Remove conflicts.
 
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db;
 add-apt-repository 'deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main';
