@@ -3,5 +3,5 @@
 # Mount a RAM disk partition.
 
 mkdir --parents /var/bootstrap/ram;
-echo 'tmpfs /ram/app tmpfs defaults,size=12m,uid=nobody,gid=www-data,mode=2775 0 0' >> /etc/fstab;
+echo 'tmpfs /var/bootstrap/ram tmpfs defaults,size=12m,uid=nobody,gid=www-data,mode=2775 0 0' >> /etc/fstab;
 mount /var/bootstrap/ram; # Mount the new partition.
