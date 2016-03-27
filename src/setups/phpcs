@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Install PHP Code Sniffer.
+
+curl https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar --location --output /usr/bin/phpcs;
+chmod +x /usr/bin/phpcs; # Make it executable.

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Resolve these host names.
+
+echo '127.0.0.1 ci.vm' >> /etc/hosts;
+echo '127.0.0.1 sub.ci.vm' >> /etc/hosts;
+echo '127.0.0.1 sub1.ci.vm' >> /etc/hosts;
+echo '127.0.0.1 sub2.ci.vm' >> /etc/hosts;

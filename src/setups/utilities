@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Install utilities.
+
+apt-get install zip --yes;
+apt-get install unzip --yes;
+
+apt-get install libssl-dev --yes;
+apt-get install apache2-utils --yes;
+
+apt-get install pandoc --yes;
+apt-get install pandoc-citeproc --yes;

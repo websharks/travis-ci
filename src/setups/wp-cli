@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Install WP-CLI command-line utils.
+
+curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar --location --output /usr/bin/wp;
+chmod +x /usr/bin/wp; # Make it executable.
+
+# Configure WP-CLI utilities.
+
+echo 'user: admin' > /etc/bootstrap/wp-cli.yml;
+echo 'path: /var/bootstrap/wp' >> /etc/bootstrap/wp-cli.yml;
+echo 'url: https://ci.vm' >> /etc/bootstrap/wp-cli.yml;
+
+mkdir --parents ~/.wp-cli; # Where WP-CLI expects it.
+ln --symbolic --force /etc/bootstrap/wp-cli.yml ~/.wp-cli/config.yml;

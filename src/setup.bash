@@ -2,19 +2,35 @@
 
 # Include strict mode & functions.
 
-. ~/ws/repos/travis-ci/src/bash/strict-mode;
-. ~/ws/repos/travis-ci/src/bash/functions;
+. /bootstrap/src/bash/strict-mode;
+. /bootstrap/src/bash/functions;
 
 # Run setup scripts in this order now.
 
-. ~/ws/repos/travis-ci/src/bash/setups/run-vars;
-. ~/ws/repos/travis-ci/src/bash/setups/preamble;
+. /bootstrap/src/setups/aptitude;
+. /bootstrap/src/setups/utilities;
+. /bootstrap/src/setups/timezone;
 
-. ~/ws/repos/travis-ci/src/bash/setups/directories;
-. ~/ws/repos/travis-ci/src/bash/setups/replacements;
+. /bootstrap/src/setups/ci-vars;
 
-. ~/ws/repos/travis-ci/src/bash/setups/php;
-. ~/ws/repos/travis-ci/src/bash/setups/mysql;
-. ~/ws/repos/travis-ci/src/bash/setups/nginx;
+. /bootstrap/src/setups/hosts;
+. /bootstrap/src/setups/mkdirs;
+. /bootstrap/src/setups/env-vars;
+. /bootstrap/src/setups/ssl-certs;
 
-. ~/ws/repos/travis-ci/src/bash/setups/wordpress;
+. /bootstrap/src/setups/postfix;
+. /bootstrap/src/setups/nginx;
+. /bootstrap/src/setups/mysql;
+
+. /bootstrap/src/setups/ramdisk;
+. /bootstrap/src/setups/memcache;
+
+. /bootstrap/src/setups/php/stub;
+
+. /bootstrap/src/setups/phing;
+. /bootstrap/src/setups/phpcs;
+. /bootstrap/src/setups/apigen;
+. /bootstrap/src/setups/composer;
+
+. /bootstrap/src/setups/wp-cli;
+. /bootstrap/src/setups/wordpress;

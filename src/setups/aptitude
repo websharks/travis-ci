@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Add multiverse repo.
+
+apt-add-repository multiverse;
+
+# Update package repositories.
+
+apt-get update;

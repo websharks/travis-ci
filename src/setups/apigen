@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Install APIGEN for codex generation.
+
+curl http://apigen.org/apigen.phar --location --output /usr/bin/apigen;
+chmod +x /usr/bin/apigen; # Make it executable.
