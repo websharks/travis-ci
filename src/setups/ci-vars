@@ -2,17 +2,17 @@
 
 # Parse CI run vars.
 
-if [[ -n "${CI_RUN}" ]]; then
+if [[ -n "${CI_RUN:-}" ]]; then
   IFS=','; read -r -a _ci_run <<< "${CI_RUN}";
   for _ci_run_var in "${_ci_run[@]}"; do
       export CI_RUN_"${_ci_run_var%%=*}"="${_ci_run_var#*=}";
   done; unset _ci_run; unset _ci_run_var;
 fi;
-if [[ -z "${CI_RUN_PHP_VERSION}" ]]; then
+if [[ -z "${CI_RUN_PHP_VERSION:-}" ]]; then
   export CI_RUN_PHP_VERSION; CI_RUN_PHP_VERSION='7.0';
 fi;
-if [[ -n "${CI_RUN_WP}" ]]; then
-  if [[ -z "${CI_RUN_WP_VERSION}" || "${CI_RUN_WP_VERSION}" == 'latest' ]]; then
+if [[ -n "${CI_RUN_WP:-}" ]]; then
+  if [[ -z "${CI_RUN_WP_VERSION:-}" || "${CI_RUN_WP_VERSION}" == 'latest' ]]; then
     CI_RUN_WP_VERSION='$json = json_decode(file_get_contents("https://api.wordpress.org/core/version-check/1.7/"));';
     CI_RUN_WP_VERSION+='echo !empty($json->offers[0]->version) ? $json->offers[0]->version : "";';
     CI_RUN_WP_VERSION="$(php -r "${CI_RUN_WP_VERSION}")";
