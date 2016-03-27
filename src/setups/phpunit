@@ -2,7 +2,7 @@
 
 # Install PHPUnit for tests.
 
-apt-get install php-pear; # Required for Archive/Tar.
+apt-get install php-pear --yes; # Required for Archive/Tar.
 
 if [[ "${CI_RUN_PHP_VERSION}" == 7.0 || "${CI_RUN_PHP_VERSION}" == 5.6 ]]; then
   _url=https://phar.phpunit.de/phpunit.phar;
