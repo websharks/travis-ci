@@ -10,6 +10,7 @@ apt-get install php5-cli --yes;
 apt-get install php5-fpm --yes;
 
 apt-get install php5-mysql --yes;
+apt-get install php5-mysqlnd --yes;
 apt-get install php5-curl --yes;
 apt-get install php5-intl --yes;
 apt-get install php5-pspell --yes;
@@ -17,6 +18,8 @@ apt-get install php5-gmp --yes;
 apt-get install php5-gd --yes;
 apt-get install php5-mcrypt --yes;
 apt-get install php5-memcached --yes;
+
+echo 'extension = mcrypt.so' >>/bootstrap/src/php/.ini;
 
 ## Create PHP config file symlink.
 
