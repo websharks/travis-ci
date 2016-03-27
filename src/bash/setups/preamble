@@ -23,6 +23,10 @@ echo 'MySQL DB Name: '"${CI_CFG_MYSQL_DB_NAME}";
 echo;
 echo 'Nginx Version: '"${CI_RUN_NGINX_VERSION}";
 echo;
+echo 'Memcached Version: '"${CI_RUN_MEMCACHED_VERSION}";
+echo;
+echo 'Redis Version: '"${CI_RUN_REDIS_VERSION}";
+echo;
 echo 'Build Host: '"${CI_CFG_BUILD_HOST}";
 echo 'Build Port: '"${CI_CFG_BUILD_PORT}";
 echo 'Build URL: '"${CI_CFG_BUILD_URL}";
@@ -39,4 +43,14 @@ if [[ -n "${CI_RUN_WP}" ]]; then
   echo 'WordPress DB Prefix: '"${CI_CFG_WP_DB_PREFIX}";
   echo 'WordPress Admin: '"${CI_CFG_WP_ADMIN}";
 fi;
+echo;
+
+echo '--- CI Environment Vars ----------------------------------------------';
+echo;
+readarray -t _env_kvs <<< "$(env)"; for _env_kv in "${_env_kvs[@]}"; do
+  _env_k="${_env_kv%%=*}"; _env_v="${_env_kv#*=}";
+  if [[ "${_env_k}" =~ ^CI_RUN_ || "${_env_k}" =~ ^CI_CFG_ ]]; then
+    echo "${_env_k}"'='"${_env_v}";
+  fi;
+done; unset _env_kvs; unset _env_kv; unset _env_k; unset _env_v;
 echo;
