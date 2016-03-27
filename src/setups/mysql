@@ -2,7 +2,8 @@
 
 # Install MariaDB (i.e., MySQL).
 
-apt-get purge 'mysql*' 'mariadb*'; # Remove conflicts.
+apt-get purge 'mysql*' 'mariadb*' --yes;
+apt-get autoremove --yes;
 
 apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db;
 add-apt-repository 'deb http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.0/ubuntu trusty main';
@@ -29,7 +30,6 @@ mysql --user=root --password=ciTNh5xXhsjNXwQ --execute="FLUSH PRIVILEGES;";
 # Config the MySQL/MariaDB server.
 
 ln --symbolic /bootstrap/src/mysql/.cnf /etc/mysql/conf.d/z90.cnf;
-echo '/bootstrap/src/mysql/.cnf r,' >> /etc/apparmor.d/local/usr.sbin.mysqld;
 
 # Directories.
 
