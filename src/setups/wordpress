@@ -33,17 +33,19 @@ if [[ -n "${CI_RUN_WP}" && -n "${CI_RUN_WP_VERSION}" ]]; then
 
     # Generate a `/wp-config.php` file.
 
-    wp core config --allow-root \
+    wp core config \
       --dbhost=127.0.0.1:3306 \
       --dbname=db0 --dbprefix=wp_ \
       --dbcharset=utf8mb4 --dbcollate=utf8mb4_unicode_ci \
-      --dbuser=client --dbpass=ciTNh5xXhsjNXwQ;
+      --dbuser=client --dbpass=ciTNh5xXhsjNXwQ \
+      --allow-root;
 
     # Install WordPress DB tables, etc.
 
-    wp core "${_wp_install_command}" --allow-root \
+    wp core "${_wp_install_command}" \
       --title=WordPress --admin_user=admin --admin_password=admin \
-      --admin_email=ci+admin@wsharks.com --skip-email;
+      --admin_email=ci+admin@wsharks.com --skip-email \
+      --allow-root;
 
     # Create 2 users w/ each default role (10 users total).
 
