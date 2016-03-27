@@ -12,5 +12,4 @@ echo 'path: /var/bootstrap/wp' >> /etc/bootstrap/wp-cli.yml;
 echo 'url: https://ci.vm' >> /etc/bootstrap/wp-cli.yml;
 echo 'allow-root: true' >> /etc/bootstrap/wp-cli.yml;
 
-mkdir --parents ~/.wp-cli; # Where WP-CLI expects it.
-ln --symbolic --force /etc/bootstrap/wp-cli.yml ~/.wp-cli/config.yml;
+export WP_CLI_CONFIG_PATH; WP_CLI_CONFIG_PATH=/etc/bootstrap/wp-cli.yml;
