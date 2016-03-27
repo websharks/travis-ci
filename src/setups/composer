@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# Install Composer dependency management for PHP.
+
+curl https://getcomposer.org/installer --location \
+  | php -- --install-dir=/usr/bin --filename=composer;
