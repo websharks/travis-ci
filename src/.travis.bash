@@ -17,6 +17,6 @@ git clone https://github.com/websharks/travis-ci /bootstrap --branch=master --de
 
 # Custom code reinserted here via [custom] marker. Add your <custom></custom> comment markers here please.
 
-# Run build now; i.e., Phing, etc.
+# Run build now; i.e., Phing, etc (after custom code).
 
 . /bootstrap/src/build.bash;
