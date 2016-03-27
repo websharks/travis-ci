@@ -11,9 +11,6 @@ elif [[ "${CI_RUN_PHP_VERSION}" == 5.6 ]]; then
 elif [[ "${CI_RUN_PHP_VERSION}" == 5.5 ]]; then
   . /bootstrap/src/setups/php/via-ppa/v5.5;
 
-elif [[ "${CI_RUN_PHP_VERSION}" == 5.4 ]]; then
-  . /bootstrap/src/setups/php/via-ppa/v5.4;
-
 else # Unexpected PHP version.
   echo 'Unexpected CI_RUN_PHP_VERSION environment variable.';
   exit 1; # Bail on failure.
