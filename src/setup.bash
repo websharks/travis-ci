@@ -15,7 +15,6 @@
 
 . /bootstrap/src/setups/hosts;
 . /bootstrap/src/setups/mkdirs;
-. /bootstrap/src/setups/env-vars;
 . /bootstrap/src/setups/ssl-certs;
 
 . /bootstrap/src/setups/postfix;
