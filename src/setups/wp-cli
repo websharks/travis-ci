@@ -10,6 +10,7 @@ chmod +x /usr/bin/wp; # Make it executable.
 echo 'user: admin' > /etc/bootstrap/wp-cli.yml;
 echo 'path: /var/bootstrap/wp' >> /etc/bootstrap/wp-cli.yml;
 echo 'url: https://ci.vm' >> /etc/bootstrap/wp-cli.yml;
+echo 'allow-root: true' >> /etc/bootstrap/wp-cli.yml;
 
 mkdir --parents ~/.wp-cli; # Where WP-CLI expects it.
 ln --symbolic --force /etc/bootstrap/wp-cli.yml ~/.wp-cli/config.yml;
