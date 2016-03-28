@@ -8,13 +8,8 @@ script: ./.travis.bash
 # Notifications.
 
 notifications:
-  email: false # Disable.
-  webhooks: # Let WebSharks handle.
-    urls: # This single URL will suffice.
-      - https://www.websharks-inc.com/travis/webhook.php
-    on_start: always
-    on_success: always
-    on_failure: always
+  email: false # Disable emails.
+  slack: websharks:EpVKoMF6MQKjLKVw0CAX33Og
 
 # Example build matrix (default configuration).
 
