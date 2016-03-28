@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# Install CasperJS.
+
+# Dependencies.
+
+apt-get install chrpath --yes;
+apt-get install build-essential --yes;
+apt-get install libssl-dev --yes;
+apt-get install libxft-dev --yes;
+apt-get install python --yes;
+apt-get install libfreetype6 libfreetype6-dev --yes;
+apt-get install libfontconfig1 libfontconfig1-dev --yes;
+
+# Install PhantomJS first.
+
+mkdir --parents /var/bootstrap/phantomjs;
+curl https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 --location --output /tmp/bootstrap/phantomjs.tar.bz2;
+tar --extract --bzip2 --verbose --strip-components=1 --file=/tmp/bootstrap/phantomjs.tar.bz2 -C /var/bootstrap/phantomjs;
+ln --symbolic /var/bootstrap/phantomjs/bin/phantomjs /usr/bin/phantomjs;
+rm /tmp/bootstrap/phantomjs.tar.bz2;
+
+# Install CasperJS now.
+
+git clone https://github.com/n1k0/casperjs /var/bootstrap/casperjs --branch=master --depth=1;
+ln --symbolic /var/bootstrap/casperjs/bin/casperjs /usr/bin/casperjs;

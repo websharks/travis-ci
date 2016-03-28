@@ -9,7 +9,6 @@ if [[ -n "${CI_RUN_WP}" && -n "${CI_RUN_WP_VERSION}" ]]; then
   if [[ "${CI_RUN_WP_VERSION}" =~ \-nightly$ ]]; then
     curl https://wordpress.org/nightly-builds/wordpress-latest.zip --location --output /tmp/bootstrap/wordpress-nightly.zip;
     unzip -qq -d /tmp/bootstrap/wordpress-nightly /tmp/bootstrap/wordpress-nightly.zip;
-
     cp --force --recursive /tmp/bootstrap/wordpress-nightly/wordpress/. /var/bootstrap/wp;
     rm --force --recursive /tmp/bootstrap/wordpress-nightly;
     rm /tmp/bootstrap/wordpress-nightly.zip;

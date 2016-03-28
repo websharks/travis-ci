@@ -31,6 +31,7 @@
 . /bootstrap/src/setups/apigen;
 . /bootstrap/src/setups/composer;
 . /bootstrap/src/setups/phpunit;
+. /bootstrap/src/setups/casperjs;
 
 . /bootstrap/src/setups/wp-cli;
 . /bootstrap/src/setups/wordpress;
