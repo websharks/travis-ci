@@ -24,3 +24,7 @@ rm /tmp/bootstrap/phantomjs.tar.bz2;
 
 git clone https://github.com/n1k0/casperjs /var/bootstrap/casperjs --branch=master --depth=1;
 ln --symbolic /var/bootstrap/casperjs/bin/casperjs /usr/bin/casperjs;
+
+# Create directories for CasperJS.
+
+mkdir --parents /tmp/bootstrap/casperjs-local-storage;
