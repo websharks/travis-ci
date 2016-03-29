@@ -60,6 +60,7 @@ add-global-env-var CI_NFO_WWW_DIR /var/bootstrap/www;
 add-global-env-var CI_NFO_LOGS_DIR /var/log/bootstrap;
 add-global-env-var CI_NFO_CACHE_DIR /tmp/bootstrap/cache;
 add-global-env-var CI_NFO_RAM_DIR /var/bootstrap/ram;
+add-global-env-var CI_NFO_SRC_DIR /bootstrap/src;
 
 add-global-env-var CI_NFO_SALT Atb9vPW5jnxnTSDmBDbKWwbT2cgLCcXsP42mcU9TUEz7qQu6E6gbv7q8HeeJXjG5;
 
