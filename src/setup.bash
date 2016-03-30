@@ -8,6 +8,7 @@
 # Run setup scripts in this order now.
 
 . /bootstrap/src/setups/aptitude;
+. /bootstrap/src/setups/apparmor;
 . /bootstrap/src/setups/utilities;
 . /bootstrap/src/setups/timezone;
 
@@ -16,6 +17,8 @@
 . /bootstrap/src/setups/hosts;
 . /bootstrap/src/setups/mkdirs;
 . /bootstrap/src/setups/ssl-certs;
+
+. /bootstrap/src/setups/docker;
 
 . /bootstrap/src/setups/postfix;
 . /bootstrap/src/setups/nginx;

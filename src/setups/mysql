@@ -30,6 +30,7 @@ mysql --user=root --password=ciTNh5xXhsjNXwQ --execute="FLUSH PRIVILEGES;";
 # Config the MySQL/MariaDB server.
 
 ln --symbolic /bootstrap/src/mysql/.cnf /etc/mysql/conf.d/z90.cnf;
+echo '/bootstrap/src/mysql/.cnf r,' >> /etc/apparmor.d/local/usr.sbin.mysqld;
 
 # Directories.
 
