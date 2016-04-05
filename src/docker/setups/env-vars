@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Read `/etc/environment`.
+
+while read -r _line; do
+  if [[ "${_line}" =~ .\= ]]; then
+    _env_k="${_line%%=*}";
+    _env_v="${_line#*=}";
+    _env_v="${_env_v//\'}";
+    _env_v="${_env_v//\"}";
+    export "${_env_k}"="${_env_v}";
+  fi;
+done < /etc/environment; unset _env_k; unset _env_v;

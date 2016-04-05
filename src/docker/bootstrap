@@ -13,6 +13,8 @@ if [[ "$(whoami)" != 'root' ]]; then
 # Run setup scripts in this order now.
 
 . /bootstrap-ci/src/docker/setups/ci-vars;
+. /bootstrap-ci/src/docker/setups/env-vars;
+
 . /bootstrap-ci/src/docker/setups/mkdirs;
 . /bootstrap-ci/src/docker/setups/wordpress;
 
