@@ -1,0 +1,138 @@
+#!/usr/bin/env bash
+
+# Maybe install/configure WordPress.
+
+if [[ -n "${CI_RUN_WP}" && -n "${CI_RUN_WP_VERSION}" ]]; then
+
+  # Remove existing `/app`.
+
+  rm --force --recursive /app;
+  mkdir --parents /app/src;
+
+  # Download via cURL or WP-CLI (easier).
+
+  if [[ "${CI_RUN_WP_VERSION}" =~ \-nightly$ ]]; then
+
+    curl https://wordpress.org/nightly-builds/wordpress-latest.zip --location --output /tmp/wordpress-nightly.zip;
+    unzip -qq -d /tmp/wordpress-nightly /tmp/wordpress-nightly.zip; # Extract from ZIP file.
+    cp --force --recursive --preserve=all /tmp/wordpress-nightly/wordpress/. /app/src;
+
+    rm --force --recursive /tmp/wordpress-nightly;
+    rm /tmp/wordpress-nightly.zip;
+
+  else # We can just use WP-CLI to download a specific version.
+    wp core download --version="${CI_RUN_WP_VERSION}" --path=/app/src --allow-root;
+  fi;
+  # Install and configure WordPress.
+
+  for _wp_run in standard multisite; do
+
+    # Work out conditional variables; else continue if n/a.
+
+    if [[ "${CI_RUN_WP}" == 'multisite' && "${CI_RUN_WP}" == "${_wp_run}" ]]; then
+      _wp_install_command='multisite-install';
+
+    elif [[ "${CI_RUN_WP}" == 'standard' && "${CI_RUN_WP}" == "${_wp_run}" ]]; then
+      _wp_install_command='install';
+
+    else continue; fi; # Bypass; not applicable.
+
+    # Generate a `/wp-config.php` file.
+
+    wp core config \
+      --dbhost="${CFG_MYSQL_DB_HOST}":"${CFG_MYSQL_DB_PORT}" \
+      --dbname="${CFG_MYSQL_DB_NAME}" --dbprefix=wp_ \
+      --dbcharset="${CFG_MYSQL_DB_CHARSET}" --dbcollate="${CFG_MYSQL_DB_COLLATE}" \
+      --dbuser="${CFG_MYSQL_DB_USERNAME}" --dbpass="${CFG_MYSQL_DB_PASSWORD}" \
+      --allow-root;
+
+    # Install WordPress DB tables, etc.
+
+    wp core "${_wp_install_command}" \
+      --title=WordPress --admin_user=admin --admin_password=admin \
+      --admin_email=ci+admin@"${CFG_ROOT_HOST}" --skip-email \
+      --allow-root;
+
+    # Create 2 users w/ each default role (10 users total).
+
+    for _wp_role in administrator editor author contributor subscriber; do
+      for _wp_user_i in {1..2}; do
+        wp user create "${_wp_role}${_wp_user_i}" ci+"${_wp_role}${_wp_user_i}@${CFG_ROOT_HOST}" --user_pass="${_wp_role}${_wp_user_i}" --role="${_wp_role}" \
+          --first_name=Test --last_name="${_wp_role^}${_wp_user_i}" --display_name='Test '"${_wp_role^}${_wp_user_i}" --allow-root;
+      done; unset _wp_user_i;
+    done; unset _wp_role;
+
+    # Create 2 additional users (generic subscribers) for testing purposes.
+
+    for _wp_user_i in {1..2}; do
+      wp user create user"${_wp_user_i}" ci+user"${_wp_user_i}@${CFG_ROOT_HOST}" --user_pass=user"${_wp_user_i}" --role=subscriber \
+        --first_name=Test --last_name=User"${_wp_user_i}" --display_name='Test User'"${_wp_user_i}" --allow-root;
+    done; unset _wp_user_i;
+
+    # If multisite, create 2 child sites & add users to those sites.
+
+    if [[ "${CI_RUN_WP}" == 'multisite' ]]; then
+      for _wp_site_i in {1..2}; do
+        wp site create --slug=site"${_wp_site_i}" --title=Site"${_wp_site_i}" --allow-root;
+
+        wp user set-role admin administrator --url=https://"${CFG_HOST}"/site"${_wp_site_i}" --allow-root;
+
+        for _wp_role in administrator editor author contributor subscriber; do
+          for _wp_user_i in {1..2}; do
+            wp user set-role "${_wp_role}${_wp_user_i}" "${_wp_role}" --url=https://"${CFG_HOST}"/site"${_wp_site_i}" --allow-root;
+          done; unset _wp_user_i;
+        done; unset _wp_role;
+
+        for _wp_user_i in {1..2}; do
+          wp user set-role user"${_wp_user_i}" subscriber --url=https://"${CFG_HOST}"/site"${_wp_site_i}" --allow-root;
+        done; unset _wp_user_i;
+      done; unset _wp_site_i;
+    fi;
+    # If this is a WP theme or plugin; symlink & activate.
+
+    if [[ -f "${CI_CFG_PROJECT_DIR}"/readme.txt ]]; then
+
+      # If this is a WordPress plugin.
+
+      if [[ -f "${CI_CFG_PROJECT_DIR}"/plugin.php || -f "${CI_CFG_PROJECT_DIR}"/"${CI_CFG_PROJECT_DIR_BASENAME}".php ]]; then
+        cp --force --recursive --preserve=all "${CI_CFG_PROJECT_DIR}"/. /app/src/wp-content/plugins/"${CI_CFG_PROJECT_DIR_BASENAME}";
+
+        # Maybe activate network-wide.
+
+        if [[ "${CI_RUN_WP}" == 'multisite' ]]; then
+          wp plugin activate "${CI_CFG_PROJECT_DIR_BASENAME}" --network --allow-root;
+
+        else # Standard plugin activation in this case.
+          wp plugin activate "${CI_CFG_PROJECT_DIR_BASENAME}" --allow-root;
+        fi;
+      # If this is a WordPress theme.
+
+      elif [[ -f "${CI_CFG_PROJECT_DIR}"/style.css || -f "${CI_CFG_PROJECT_DIR}"/functions.php ]]; then
+        cp --force --recursive --preserve=all "${CI_CFG_PROJECT_DIR}"/. /app/src/wp-content/themes/"${CI_CFG_PROJECT_DIR_BASENAME}";
+
+        # Maybe enable & activate network-wide.
+
+        if [[ "${CI_RUN_WP}" == 'multisite' ]]; then
+          wp theme enable "${CI_CFG_PROJECT_DIR_BASENAME}" --network --activate --allow-root;
+
+          for _wp_site_i in {1..2}; do
+            wp theme activate "${CI_CFG_PROJECT_DIR_BASENAME}" --url=https://"${CFG_HOST}"/site"${_wp_site_i}" --allow-root;
+          done; unset _wp_site_i;
+
+        else # Standard theme activation in this case.
+          wp theme activate "${CI_CFG_PROJECT_DIR_BASENAME}" --allow-root;
+        fi;
+      fi;
+    fi;
+  done; unset _wp_run; unset _wp_install_command;
+
+  # Update permissions in the `/app` directory.
+
+  chown --recursive nobody:app /app;
+  find /app -type d -exec chmod 2775 {} \;
+  find /app -type f -exec chmod 664 {} \;
+
+  chown --recursive www-data /app/src;
+  find /app/src -type d -exec chmod 2775 {} \;
+  find /app/src -type f -exec chmod 664 {} \;
+fi;

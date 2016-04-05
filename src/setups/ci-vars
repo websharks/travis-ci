@@ -6,7 +6,7 @@ if [[ -n "${CI_RUN:-}" ]]; then
   IFS=','; read -r -a _ci_run <<< "${CI_RUN}";
   for _ci_run_var in "${_ci_run[@]}"; do
       export CI_RUN_"${_ci_run_var%%=*}"="${_ci_run_var#*=}";
-  done; unset _ci_run; unset _ci_run_var;
+  done; unset _ci_run; unset _ci_run_var; unset IFS;
 fi;
 if [[ -z "${CI_RUN_PHP_VERSION:-}" ]]; then
   export CI_RUN_PHP_VERSION; CI_RUN_PHP_VERSION='7.0';
@@ -22,53 +22,5 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
 fi;
 # Set additional config vars.
 
-export CI_CFG_BUILD_DIR; CI_CFG_BUILD_DIR="${TRAVIS_BUILD_DIR}";
-export CI_CFG_BUILD_DIR_BASENAME; CI_CFG_BUILD_DIR_BASENAME="${CI_CFG_BUILD_DIR##*/}";
-
-# Global environment variables.
-
-## For PHP-FPM later.
-
-mkdir --parents /etc/php/fpm;
-echo '[www]' > /etc/php/fpm/env.conf;
-
-## Read-only info vars.
-
-add-global-env-var CI_NFO_ROOT_HOST ci.vm;
-
-add-global-env-var CI_NFO_EMAIL_USER ci;
-add-global-env-var CI_NFO_EMAIL_HOST wsharks.com;
-
-add-global-env-var CI_NFO_MYSQL_DB_HOST 127.0.0.1;
-add-global-env-var CI_NFO_MYSQL_DB_PORT 3306;
-add-global-env-var CI_NFO_MYSQL_DB_CHARSET utf8mb4;
-add-global-env-var CI_NFO_MYSQL_DB_COLLATE utf8mb4_unicode_ci;
-add-global-env-var CI_NFO_MYSQL_DB_USERNAME client;
-add-global-env-var CI_NFO_MYSQL_DB_PASSWORD ciTNh5xXhsjNXwQ;
-add-global-env-var CI_NFO_MYSQL_DB_NAME db0;
-
-add-global-env-var CI_NFO_MEMCACHE_HOST 127.0.0.1;
-add-global-env-var CI_NFO_MEMCACHE_PORT 11211;
-
-add-global-env-var CI_NFO_EMAIL_SMTP_HOST 127.0.0.1;
-add-global-env-var CI_NFO_EMAIL_SMTP_PORT 25;
-add-global-env-var CI_NFO_EMAIL_SMTP_SECURE;
-add-global-env-var CI_NFO_EMAIL_SMTP_USERNAME;
-add-global-env-var CI_NFO_EMAIL_SMTP_PASSWORD;
-
-add-global-env-var CI_NFO_WWW_DIR /var/bootstrap/www;
-add-global-env-var CI_NFO_LOGS_DIR /var/log/bootstrap;
-add-global-env-var CI_NFO_CACHE_DIR /tmp/bootstrap/cache;
-add-global-env-var CI_NFO_RAM_DIR /var/bootstrap/ram;
-add-global-env-var CI_NFO_SRC_DIR /bootstrap/src;
-
-add-global-env-var CI_NFO_SALT Atb9vPW5jnxnTSDmBDbKWwbT2cgLCcXsP42mcU9TUEz7qQu6E6gbv7q8HeeJXjG5;
-
-## Also for `CI`, and all `CI_RUN_` and `CI_CFG_` environment variables.
-
-readarray -t _env_kvs <<< "$(env)"; for _env_kv in "${_env_kvs[@]}"; do
-  _env_k="${_env_kv%%=*}"; _env_v="${_env_kv#*=}";
-  if [[ "${_env_k}" == 'CI' || "${_env_k}" =~ ^CI_RUN_ || "${_env_k}" =~ ^CI_CFG_ ]]; then
-    add-global-env-var "${_env_k}" "${_env_v}";
-  fi;
-done; unset _env_kvs; unset _env_kv; unset _env_k; unset _env_v;
+export CI_CFG_PROJECT_DIR; CI_CFG_PROJECT_DIR="${TRAVIS_BUILD_DIR}";
+export CI_CFG_PROJECT_DIR_BASENAME; CI_CFG_PROJECT_DIR_BASENAME="${CI_CFG_PROJECT_DIR##*/}";

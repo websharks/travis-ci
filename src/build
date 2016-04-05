@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Sanity checks. Right location? Running as sudo?
+
+if [[ "${BASH_SOURCE[0]}" != '/bootstrap-ci/build' ]]; then
+  echo 'I must live at /bootstrap-ci/build.'; exit 1;
+elif [[ "$(whoami)" != 'root' ]]; then
+  echo 'Please run w/ `sudo`.'; exit 1; fi;
+
+# Build; i.e., Vagrant up!
+
+cd /bootstrap-ci/src/vagrant; vagrant up;

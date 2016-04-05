@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Install Vagrant.
+
+apt-get install virtualbox-dkms --yes;
+apt-get install linux-headers-"$(uname -r)";
+apt-get install virtualbox --yes;
+apt-get install vagrant --yes;
+dpkg-reconfigure virtualbox-dkms;
+
+# Install Vagrant box.
+
+vagrant box add websharks/ubuntu-ci-php"${CI_RUN_PHP_VERSION}";
+
+# Fill replacement codes in `Vagrantfile`.
+
+perl -i -0wpe 's/%%box%%/'"$(esc-regex-rv websharks/ubuntu-ci-php"${CI_RUN_PHP_VERSION}")"'/ug' /bootstrap-ci/src/vagrant/Vagrantfile;
+
+# Bootstrap `CI`, `CI_RUN_` and `CI_CFG_` environment variables.
+
+readarray -t _env_kvs <<< "$(env)"; for _env_kv in "${_env_kvs[@]}"; do
+  _env_k="${_env_kv%%=*}"; _env_v="${_env_kv#*=}";
+  if [[ "${_env_k}" == 'CI' || "${_env_k}" =~ ^CI_RUN_ || "${_env_k}" =~ ^CI_CFG_ ]]; then
+    [[ "${_env_k}" == 'CI_CFG_PROJECT_DIR' ]] && _env_v=/project-ci;
+    echo 'export '"${_env_k}='${_env_v}'" >> /bootstrap-ci/src/vagrant/bootstrap-ci-vars;
+  fi;
+done; unset _env_kvs; unset _env_kv; unset _env_k; unset _env_v;

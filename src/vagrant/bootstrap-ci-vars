@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Running as vagrant user?
+
+if [[ "$(whoami)" != 'vagrant' ]]; then
+  echo 'Please run w/ `vagrant`.'; exit 1; fi;
+
+# Include strict mode & functions.
+
+. /bootstrap-ci/src/bash/strict-mode;
+. /bootstrap-ci/src/bash/functions;
+
+# CI environment variables.
+# See: setups/vagrant for details.

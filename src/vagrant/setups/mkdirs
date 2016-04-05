@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# Setup `/app` directory.
+
+rm --force --recursive /app;
+mkdir --parents /app/src;
+
+cp --force --recursive --preserve=all "${CI_CFG_PROJECT_DIR}"/. /app;
+
+chown --recursive nobody:app /app;
+find /app -type d -exec chmod 2775 {} \;
+find /app -type f -exec chmod 664 {} \;
+
+chown --recursive www-data /app/src;
+find /app/src -type d -exec chmod 2775 {} \;
+find /app/src -type f -exec chmod 664 {} \;

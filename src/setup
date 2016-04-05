@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Sanity checks. Right location? Running as sudo?
+
+if [[ "${BASH_SOURCE[0]}" != '/bootstrap-ci/setup' ]]; then
+  echo 'I must live at /bootstrap-ci/setup.'; exit 1;
+elif [[ "$(whoami)" != 'root' ]]; then
+  echo 'Please run w/ `sudo`.'; exit 1; fi;
+
+# Include strict mode & functions.
+
+. /bootstrap-ci/src/bash/strict-mode;
+. /bootstrap-ci/src/bash/functions;
+
+# Run setup scripts in this order now.
+
+. /bootstrap-ci/src/setups/debian;
+. /bootstrap-ci/src/setups/aptitude;
+. /bootstrap-ci/src/setups/utilities;
+. /bootstrap-ci/src/setups/ci-vars;
+. /bootstrap-ci/src/setups/vagrant;

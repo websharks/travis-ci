@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-# Install Phing for PHP.
-
-curl http://www.phing.info/get/phing-latest.phar --location --output /usr/bin/phing;
-chmod +x /usr/bin/phing; # Make it executable.

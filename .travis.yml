@@ -1,3 +1,5 @@
+# ----------------------------------------------------------------------------------------------------------------------
+
 # Container.
 
 dist: trusty
@@ -5,11 +7,15 @@ sudo: required
 language: generic
 script: ./.travis.bash
 
+# ----------------------------------------------------------------------------------------------------------------------
+
 # Notifications.
 
-notifications:
-  email: false # Disable emails.
-  slack: websharks:EpVKoMF6MQKjLKVw0CAX33Og
+#notifications:
+#  email: false # Disable.
+#  slack: websharks:EpVKoMF6MQKjLKVw0CAX33Og
+
+# ----------------------------------------------------------------------------------------------------------------------
 
 # Example build matrix (default configuration).
 
@@ -36,5 +42,7 @@ matrix: # Tests for Comet Cache WordPress plugin.
     - env: CI_RUN=PHP_VERSION=5.5,WP=multisite,WP_VERSION=nightly
 
   fast_finish: true # Before allowed failures.
+
+# ----------------------------------------------------------------------------------------------------------------------
 
 # Custom code reinserted here via [custom] marker. Add your <custom></custom> comment markers here please.
