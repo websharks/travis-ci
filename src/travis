@@ -42,7 +42,10 @@ done; unset _env_kvs; unset _env_kv; unset _env_k; unset _env_v;
 
 # Run build inside a Docker instance.
 
+docker_tag='20160404'; # Tag for most PHP builds.
+[[ "${CI_RUN_PHP_VERSION}" == '5.5' ]] && docker_tag='20160405';
+
 docker run --detach --hostname=ci.vm --name=ci \
   --volume=/bootstrap-ci:/bootstrap-ci \
-  websharks/ubuntu-ci-php"${CI_RUN_PHP_VERSION}":latest;
+  websharks/ubuntu-ci-php"${CI_RUN_PHP_VERSION}":"${docker_tag}";
 docker exec --tty ci /bootstrap-ci/src/docker/bootstrap;
