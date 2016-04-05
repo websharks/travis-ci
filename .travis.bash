@@ -10,7 +10,6 @@ if [[ "$(whoami)" != 'root' ]]; then
 # Clone the websharks/travis-ci repo.
 # Run setup scripts in websharks/travis-ci repo.
 
-apt-get install git --yes || exit 1; # Make sure Git is installed first.
 git clone https://github.com/websharks/travis-ci /bootstrap-ci --branch=master --depth=1 || exit 1;
 . /bootstrap-ci/src/travis || exit 1; # In strict mode after this line finishes.
 
