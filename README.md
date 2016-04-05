@@ -1,1 +1,1 @@
-## Travis CI scripts.
+## Travis CI bootstrap.

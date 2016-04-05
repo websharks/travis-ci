@@ -2,7 +2,7 @@
 
 # Maybe install/configure WordPress.
 
-if [[ -n "${CI_RUN_WP}" && -n "${CI_RUN_WP_VERSION}" ]]; then
+if [[ -n "${CI_RUN_WP}" ]]; then
 
   # Remove existing `/app`.
 
@@ -11,18 +11,21 @@ if [[ -n "${CI_RUN_WP}" && -n "${CI_RUN_WP_VERSION}" ]]; then
 
   # Download via cURL or WP-CLI (easier).
 
-  if [[ "${CI_RUN_WP_VERSION}" =~ \-nightly$ ]]; then
-
-    curl https://wordpress.org/nightly-builds/wordpress-latest.zip --location --output /tmp/wordpress-nightly.zip;
-    unzip -qq -d /tmp/wordpress-nightly /tmp/wordpress-nightly.zip; # Extract from ZIP file.
-    cp --force --recursive --preserve=all /tmp/wordpress-nightly/wordpress/. /app/src;
-
-    rm --force --recursive /tmp/wordpress-nightly;
-    rm /tmp/wordpress-nightly.zip;
-
-  else # We can just use WP-CLI to download a specific version.
-    wp core download --version="${CI_RUN_WP_VERSION}" --path=/app/src --allow-root;
+  if [[ "${CI_RUN_WP_VERSION}" == 'nightly' ]]; then
+    _download_url=https://wordpress.org/nightly-builds/wordpress-latest.zip;
+  elif [[ -z "${CI_RUN_WP_VERSION}" || "${CI_RUN_WP_VERSION}" == 'latest' ]]; then
+    _download_url=https://wordpress.org/latest.zip;
+  else # Assume it is a specific version.
+    _download_url=https://wordpress.org/wordpress-"${CI_RUN_WP_VERSION}".zip
   fi;
+  curl "${_download_url}" --location --output /tmp/wordpress.zip;
+  unzip -qq -d /tmp/wordpress /tmp/wordpress.zip; # Extract from ZIP file.
+  cp --force --recursive --preserve=all /tmp/wordpress/wordpress/. /app/src;
+
+  rm --force --recursive /tmp/wordpress;
+  rm /tmp/wordpress.zip;
+  unset _download_url;
+
   # Install and configure WordPress.
 
   for _wp_run in standard multisite; do

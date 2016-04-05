@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-# Install utilities.
-
-apt-get install git --yes;
-apt-get install php5-cli --yes;

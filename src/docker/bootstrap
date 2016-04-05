@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Force root user.
+
+if [[ "$(whoami)" != 'root' ]]; then
+  echo 'Please run w/ `sudo`.'; exit 1; fi;
+
+# Include strict mode & functions.
+
+. /bootstrap-ci/src/bash/strict-mode;
+. /bootstrap-ci/src/bash/functions;
+
+# Run setup scripts in this order now.
+
+. /bootstrap-ci/src/docker/setups/ci-vars;
+. /bootstrap-ci/src/docker/setups/mkdirs;
+. /bootstrap-ci/src/docker/setups/wordpress;
+
+# Run build scripts in this order now.
+
+. /bootstrap-ci/src/docker/builds/phing;

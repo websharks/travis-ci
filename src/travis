@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+# Force root user.
+
+if [[ "$(whoami)" != 'root' ]]; then
+  echo 'Please run w/ `sudo`.'; exit 1; fi;
+
+# Include strict mode & functions.
+
+. /bootstrap-ci/src/bash/strict-mode;
+. /bootstrap-ci/src/bash/functions;
+
+# Start docker.
+
+service docker restart;
+
+# Parse CI run vars.
+
+if [[ -n "${CI_RUN:-}" ]]; then
+  IFS=','; read -r -a _ci_run <<< "${CI_RUN}";
+  for _ci_run_var in "${_ci_run[@]}"; do
+      export CI_RUN_"${_ci_run_var%%=*}"="${_ci_run_var#*=}";
+  done; unset _ci_run; unset _ci_run_var; unset IFS;
+fi;
+if [[ -z "${CI_RUN_PHP_VERSION:-}" ]]; then
+  export CI_RUN_PHP_VERSION; CI_RUN_PHP_VERSION='7.0';
+fi;
+# Set additional config vars.
+
+export CI_CFG_PROJECT_DIR; CI_CFG_PROJECT_DIR="${TRAVIS_BUILD_DIR}";
+export CI_CFG_PROJECT_DIR_BASENAME; CI_CFG_PROJECT_DIR_BASENAME="${CI_CFG_PROJECT_DIR##*/}";
+
+# Setup `CI`, `CI_RUN_` and `CI_CFG_` environment variables.
+
+readarray -t _env_kvs <<< "$(env)"; for _env_kv in "${_env_kvs[@]}"; do
+  _env_k="${_env_kv%%=*}"; _env_v="${_env_kv#*=}";
+  if [[ "${_env_k}" == 'CI' || "${_env_k}" =~ ^CI_RUN_ || "${_env_k}" =~ ^CI_CFG_ ]]; then
+    [[ "${_env_k}" == 'CI_CFG_PROJECT_DIR' ]] && _env_v=/project-ci;
+    echo 'export '"${_env_k}='${_env_v}';" >> /bootstrap-ci/src/docker/setups/ci-vars;
+  fi;
+done; unset _env_kvs; unset _env_kv; unset _env_k; unset _env_v;
+
+# Run build inside a Docker instance.
+
+docker run --detach --hostname=ci.vm --name=ci \
+  --volume=/bootstrap-ci:/bootstrap-ci \
+  websharks/ubuntu-ci-php"${CI_RUN_PHP_VERSION}":latest;
+docker exec --tty ci /bootstrap-ci/src/docker/bootstrap;
