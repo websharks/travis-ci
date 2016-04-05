@@ -28,8 +28,6 @@ if [[ -n "${CI_RUN_WP}" ]]; then
 
   # Install and configure WordPress.
 
-  export WP_CLI_CONFIG_PATH=/root/.wp-cli/config.yml;
-
   for _wp_run in standard multisite; do
 
     # Work out conditional variables; else continue if n/a.
