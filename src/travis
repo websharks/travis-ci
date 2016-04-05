@@ -49,6 +49,6 @@ docker run --detach \
   --name="${docker_container_name}" \
   --volume=/bootstrap-ci:/bootstrap-ci \
   --volume="${CI_CFG_PROJECT_DIR}":"${CI_CFG_PROJECT_DIR}" \
-  "${docker_image_name_tag}" /sbin/my_init;
+  "${docker_image_name_tag}";
 
 docker exec --tty "${docker_container_name}" /bootstrap-ci/src/docker/bootstrap;
