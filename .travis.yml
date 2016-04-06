@@ -19,7 +19,7 @@ notifications:
 
 # Example build matrix (default configuration).
 
-matrix: # Tests for Comet Cache WordPress plugin.
+matrix: # Tests for an example WordPress plugin.
 
   include: # Cover both ends of our PHP spectrum.
 
