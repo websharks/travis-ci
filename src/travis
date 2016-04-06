@@ -27,6 +27,7 @@ if [[ -z "${CI_RUN_PHP_VERSION:-}" ]]; then
 fi;
 # Set additional config vars.
 
+export CI_NFO_WWW_DIR; CI_NFO_WWW_DIR=/app/src;
 export CI_CFG_PROJECT_DIR; CI_CFG_PROJECT_DIR="${TRAVIS_BUILD_DIR}";
 export CI_CFG_PROJECT_DIR_BASENAME; CI_CFG_PROJECT_DIR_BASENAME="${CI_CFG_PROJECT_DIR##*/}";
 export CI_CFG_PROJECT_BUILD_DIR; CI_CFG_PROJECT_BUILD_DIR="${CI_CFG_PROJECT_DIR}"/.~build/"${CI_CFG_PROJECT_DIR_BASENAME}"/"${CI_CFG_PROJECT_DIR_BASENAME}";
@@ -35,7 +36,7 @@ export CI_CFG_PROJECT_BUILD_DIR; CI_CFG_PROJECT_BUILD_DIR="${CI_CFG_PROJECT_DIR}
 
 readarray -t _env_kvs <<< "$(env)"; for _env_kv in "${_env_kvs[@]}"; do
   _env_k="${_env_kv%%=*}"; _env_v="${_env_kv#*=}";
-  if [[ "${_env_k}" == 'CI' || "${_env_k}" =~ ^CI_RUN_ || "${_env_k}" =~ ^CI_CFG_ ]]; then
+  if [[ "${_env_k}" == 'CI' || "${_env_k}" =~ ^CI_ ]]; then
     echo 'export '"${_env_k}='${_env_v}';" >> /bootstrap-ci/src/docker/setups/ci-vars;
   fi;
 done; unset _env_kvs; unset _env_kv; unset _env_k; unset _env_v;
