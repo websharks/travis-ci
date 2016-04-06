@@ -6,6 +6,7 @@ if [[ -n "${CI_RUN_WP}" ]]; then
 
   echo; # Double-space a new section.
   echo '--- WordPress Installation Process -----------------------------------';
+  echo; # Space before WP-CLI output that follows.
 
   # Remove existing `/app`.
 
