@@ -12,6 +12,7 @@ if [[ "$(whoami)" != 'root' ]]; then
 # Start docker.
 
 service docker restart;
+sleep 5; # Give docker time to startup.
 
 # Parse CI run vars.
 
