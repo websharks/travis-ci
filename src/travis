@@ -41,7 +41,7 @@ done; unset _env_kvs; unset _env_kv; unset _env_k; unset _env_v;
 
 # Run build inside a Docker instance.
 
-docker_tag='20160405'; # Default tag for PHP builds.
+docker_tag='20160406'; # Default tag for PHP builds.
 docker_container_name=websharks-ubuntu-ci-php"${CI_RUN_PHP_VERSION}"-"${docker_tag}";
 docker_image_name_tag=websharks/ubuntu-ci-php"${CI_RUN_PHP_VERSION}":"${docker_tag}";
 
