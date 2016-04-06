@@ -5,10 +5,6 @@
 if [[ "$(whoami)" != 'root' ]]; then
   echo 'Please run w/ `sudo`.'; exit 1; fi;
 
-# Print current `/etc/hosts`.
-
-cat /etc/hosts; # For debugging purposes.
-
 # Include strict mode & functions.
 
 . /bootstrap/src/bash/strict-mode;
