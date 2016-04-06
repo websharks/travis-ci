@@ -29,6 +29,7 @@ module.exports = {
     $.then(function () {
       if ($.exists('#error-page a')) {
         $.click('#error-page a');
+        $.waitForUrl(/\?loggedout\=true/);
       }
     });
   },
