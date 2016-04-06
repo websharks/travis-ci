@@ -38,9 +38,11 @@ if [[ -n "${CI_RUN_WP}" ]]; then
 
     if [[ "${CI_RUN_WP}" == 'multisite' && "${CI_RUN_WP}" == "${_wp_run}" ]]; then
       _wp_install_command='multisite-install';
+      _wp_htaccess_file=/bootstrap-ci/src/docker/tests/includes/wordpress/.htaccess-ms;
 
     elif [[ "${CI_RUN_WP}" == 'standard' && "${CI_RUN_WP}" == "${_wp_run}" ]]; then
       _wp_install_command='install';
+      _wp_htaccess_file=/bootstrap-ci/src/docker/tests/includes/wordpress/.htaccess;
 
     else continue; fi; # Bypass; not applicable.
 
@@ -59,6 +61,11 @@ if [[ -n "${CI_RUN_WP}" ]]; then
       --title=WordPress --admin_user=admin --admin_password=admin \
       --admin_email=ci+admin@"${CFG_ROOT_HOST}" --skip-email \
       --allow-root;
+
+    # Update permalink structure and create `.htaccess` file.
+
+    wp rewrite structure '/%postname%/';
+    cp --force "${_wp_htaccess_file}" /app/src/.htaccess;
 
     # Create 2 users w/ each default role (10 users total).
 
@@ -131,7 +138,7 @@ if [[ -n "${CI_RUN_WP}" ]]; then
         fi;
       fi;
     fi;
-  done; unset _wp_run; unset _wp_install_command;
+  done; unset _wp_run; unset _wp_install_command; unset _wp_htaccess_file;
 
   # Update permissions in the `/app` directory.
 
