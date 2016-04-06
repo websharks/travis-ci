@@ -5,6 +5,9 @@
 if [[ "$(whoami)" != 'root' ]]; then
   echo 'Please run w/ `sudo`.'; exit 1; fi;
 
+service apache2 status;
+service postfix status;
+
 # Include strict mode & functions.
 
 . /bootstrap/src/bash/strict-mode;
