@@ -4,6 +4,9 @@
 
 if [[ -n "${CI_RUN_WP}" ]]; then
 
+  echo; # Double-space a new section.
+  echo '--- WordPress Installation Process -----------------------------------';
+
   # Remove existing `/app`.
 
   rm --force --recursive /app;
@@ -27,8 +30,6 @@ if [[ -n "${CI_RUN_WP}" ]]; then
   unset _download_url;
 
   # Install and configure WordPress.
-
-  echo; # Double-space a new section.
 
   for _wp_run in standard multisite; do
 
