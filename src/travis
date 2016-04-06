@@ -27,10 +27,12 @@ if [[ -z "${CI_RUN_PHP_VERSION:-}" ]]; then
 fi;
 # Set additional config vars.
 
-export CI_NFO_WWW_DIR; CI_NFO_WWW_DIR=/app/src;
 export CI_CFG_PROJECT_DIR; CI_CFG_PROJECT_DIR="${TRAVIS_BUILD_DIR}";
 export CI_CFG_PROJECT_DIR_BASENAME; CI_CFG_PROJECT_DIR_BASENAME="${CI_CFG_PROJECT_DIR##*/}";
 export CI_CFG_PROJECT_BUILD_DIR; CI_CFG_PROJECT_BUILD_DIR="${CI_CFG_PROJECT_DIR}"/.~build/"${CI_CFG_PROJECT_DIR_BASENAME}"/"${CI_CFG_PROJECT_DIR_BASENAME}";
+
+export CI_NFO_WWW_DIR; CI_NFO_WWW_DIR=/app/src;
+export CI_NFO_PHPUNIT_BOOTSTRAP; CI_NFO_PHPUNIT_BOOTSTRAP=/bootstrap-ci/src/docker/phpunit/bootstrap.php;
 
 # Setup `CI`, `CI_RUN_` and `CI_CFG_` environment variables.
 
