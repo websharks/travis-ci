@@ -4,14 +4,15 @@ if [[ -f "${CI_CFG_PROJECT_DIR}"/build.xml ]]; then
 
   # Build all via Phing.
 
+  echo; # Double-space a new section.
   echo '--- Phing Build Process ----------------------------------------------';
   echo; # This starts the Phing build process.
   phing -f "${CI_CFG_PROJECT_DIR}"/build.xml build-all;
-  echo; # If anything fails during the build, Phing exits.
 
   # Check for any PHP errors that occurred; e.g., during the build.
 
   if [[ -s /var/log/php/errors.log ]]; then
+    echo; # Double-space a new section.
     echo '--- The following PHP errors were found in the log: ------------------';
     echo; # Display PHP error log for careful review.
     cat /var/log/php/errors.log; exit 1;
