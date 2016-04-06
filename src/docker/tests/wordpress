@@ -93,12 +93,12 @@ if [[ -n "${CI_RUN_WP}" ]]; then
     fi;
     # If this is a WP theme or plugin; symlink & activate.
 
-    if [[ -f "${CI_CFG_PROJECT_DIR}"/readme.txt ]]; then
+    if [[ -f "${CI_CFG_PROJECT_BUILD_DIR}"/readme.txt ]]; then
 
       # If this is a WordPress plugin.
 
-      if [[ -f "${CI_CFG_PROJECT_DIR}"/plugin.php || -f "${CI_CFG_PROJECT_DIR}"/"${CI_CFG_PROJECT_DIR_BASENAME}".php ]]; then
-        cp --force --recursive --preserve=all "${CI_CFG_PROJECT_DIR}"/. /app/src/wp-content/plugins/"${CI_CFG_PROJECT_DIR_BASENAME}";
+      if [[ -f "${CI_CFG_PROJECT_BUILD_DIR}"/plugin.php || -f "${CI_CFG_PROJECT_BUILD_DIR}"/"${CI_CFG_PROJECT_DIR_BASENAME}".php ]]; then
+        cp --force --recursive --preserve=all "${CI_CFG_PROJECT_BUILD_DIR}"/. /app/src/wp-content/plugins/"${CI_CFG_PROJECT_DIR_BASENAME}";
 
         # Maybe activate network-wide.
 
@@ -110,8 +110,8 @@ if [[ -n "${CI_RUN_WP}" ]]; then
         fi;
       # If this is a WordPress theme.
 
-      elif [[ -f "${CI_CFG_PROJECT_DIR}"/style.css || -f "${CI_CFG_PROJECT_DIR}"/functions.php ]]; then
-        cp --force --recursive --preserve=all "${CI_CFG_PROJECT_DIR}"/. /app/src/wp-content/themes/"${CI_CFG_PROJECT_DIR_BASENAME}";
+      elif [[ -f "${CI_CFG_PROJECT_BUILD_DIR}"/style.css || -f "${CI_CFG_PROJECT_BUILD_DIR}"/functions.php ]]; then
+        cp --force --recursive --preserve=all "${CI_CFG_PROJECT_BUILD_DIR}"/. /app/src/wp-content/themes/"${CI_CFG_PROJECT_DIR_BASENAME}";
 
         # Maybe enable & activate network-wide.
 

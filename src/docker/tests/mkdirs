@@ -5,7 +5,7 @@
 rm --force --recursive /app;
 mkdir --parents /app/src;
 
-cp --force --recursive --preserve=all "${CI_CFG_PROJECT_DIR}"/. /app;
+cp --force --recursive --preserve=all "${CI_CFG_PROJECT_BUILD_DIR}"/. /app;
 
 chown --recursive nobody:app /app;
 find /app -type d -exec chmod 2775 {} \;

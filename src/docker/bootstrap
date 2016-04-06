@@ -15,9 +15,12 @@ if [[ "$(whoami)" != 'root' ]]; then
 . /bootstrap-ci/src/docker/setups/ci-vars;
 . /bootstrap-ci/src/docker/setups/env-vars;
 
-. /bootstrap-ci/src/docker/setups/mkdirs;
-. /bootstrap-ci/src/docker/setups/wordpress;
-
 # Run build scripts in this order now.
 
 . /bootstrap-ci/src/docker/builds/phing;
+
+# Run test scripts in this order now.
+
+. /bootstrap-ci/src/docker/tests/mkdirs;
+. /bootstrap-ci/src/docker/tests/wordpress;
+. /bootstrap-ci/src/docker/tests/phing;
