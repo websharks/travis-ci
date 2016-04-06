@@ -48,6 +48,7 @@ docker_container_name=websharks-ubuntu-ci-php"${CI_RUN_PHP_VERSION}"-"${docker_t
 docker_image_name_tag=websharks/ubuntu-ci-php"${CI_RUN_PHP_VERSION}":"${docker_tag}";
 
 docker run --detach \
+  --hostname=ci.vm --ip=127.0.0.1 \
   --name="${docker_container_name}" \
   --volume=/bootstrap-ci:/bootstrap-ci \
   --volume="${CI_CFG_PROJECT_DIR}":"${CI_CFG_PROJECT_DIR}" \
