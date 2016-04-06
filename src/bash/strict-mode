@@ -32,6 +32,10 @@ function stack-trace() {
       echo " ${_i}: ${BASH_SOURCE[${_i}+1]}:${BASH_LINENO[${_i}]} ${FUNCNAME[${_i}]}(...)";
     done;
   fi;
+  if [[ -s /var/log/php/errors.log ]]; then
+    echo '--- The following PHP errors were found in the log: ------------------';
+    cat /var/log/php/errors.log; exit 1;
+  fi;
   echo 'Exiting w/ status `'"${exit_status_code}"'`.'; exit "${exit_status_code}";
 };
 trap stack-trace ERR; # Trap errors & print a stack trace.

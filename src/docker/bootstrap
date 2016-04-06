@@ -7,7 +7,7 @@ if [[ "$(whoami)" != 'root' ]]; then
 
 # Include strict mode & functions.
 
-. /bootstrap/src/bash/strict-mode;
+. /bootstrap-ci/src/bash/strict-mode;
 . /bootstrap/src/bash/functions;
 
 # Run setup scripts in this order now.
