@@ -7,6 +7,7 @@ if [[ "$(whoami)" != 'root' ]]; then
 
 service apache2 status;
 service postfix status;
+cat /etc/hosts;
 
 # Include strict mode & functions.
 
