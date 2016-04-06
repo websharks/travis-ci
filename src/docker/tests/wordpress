@@ -64,7 +64,7 @@ if [[ -n "${CI_RUN_WP}" ]]; then
 
     # Update permalink structure and create `.htaccess` file.
 
-    wp rewrite structure '/%postname%/';
+    wp rewrite structure '/%postname%/' --allow-root;
     cp --force "${_wp_htaccess_file}" /app/src/.htaccess;
 
     # Create 2 users w/ each default role (10 users total).
