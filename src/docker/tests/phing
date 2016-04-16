@@ -21,6 +21,6 @@ if [[ -f "${CI_CFG_PROJECT_DIR}"/build.xml ]]; then
 
   echo '--- Complete ---------------------------------------------------------';
   echo; # Indicate success in final output now.
-  echo 'Testing success — fantastic!';
+  echo 'Testing Success — Fantastic!';
 
 fi;

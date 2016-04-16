@@ -5,9 +5,9 @@ if [[ -f "${CI_CFG_PROJECT_DIR}"/build.xml ]]; then
   # Build all via Phing.
 
   echo; # Double-space a new section.
-  echo '--- Phing Build Process ----------------------------------------------';
+  echo '--- Phing Full Build Process -----------------------------------------';
   echo; # This starts the Phing build process.
-  phing -f "${CI_CFG_PROJECT_DIR}"/build.xml build-all;
+  phing -f "${CI_CFG_PROJECT_DIR}"/build.xml full-build-all;
 
   # Check for any PHP errors that occurred; e.g., during the build.
 
@@ -21,6 +21,6 @@ if [[ -f "${CI_CFG_PROJECT_DIR}"/build.xml ]]; then
 
   echo '--- Complete ---------------------------------------------------------';
   echo; # Indicate success in final output now.
-  echo 'Build success — fantastic!';
+  echo 'Full Build Success — Fantastic!';
 
 fi;
