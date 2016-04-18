@@ -2,7 +2,7 @@
 
 # Maybe install/configure WordPress.
 
-if [[ -n "${CI_RUN_WP}" ]]; then
+if [[ -n "${CI_RUN_WP:-}" ]]; then
 
   echo; # Double-space a new section.
   echo '--- WordPress Installation Process -----------------------------------';
