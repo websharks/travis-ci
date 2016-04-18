@@ -121,11 +121,11 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
         # Maybe activate network-wide.
 
         if [[ "${CI_RUN_WP}" == 'multisite' ]]; then
-          wp plugin activate "${_wp_sharks_core_download_url}" --network --allow-root
+          wp plugin install "${_wp_sharks_core_download_url}" --activate-network --allow-root
           wp plugin activate "${CI_CFG_PROJECT_DIR_BASENAME}" --network --allow-root;
 
         else # Standard plugin activation in this case.
-          wp plugin activate "${_wp_sharks_core_download_url}" --allow-root
+          wp plugin install "${_wp_sharks_core_download_url}" --activate --allow-root
           wp plugin activate "${CI_CFG_PROJECT_DIR_BASENAME}" --allow-root;
         fi;
       # If this is a WordPress theme.
@@ -136,7 +136,7 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
         # Maybe enable & activate network-wide.
 
         if [[ "${CI_RUN_WP}" == 'multisite' ]]; then
-          wp plugin activate "${_wp_sharks_core_download_url}" --network --allow-root
+          wp plugin install "${_wp_sharks_core_download_url}" --activate-network --allow-root
           wp theme enable "${CI_CFG_PROJECT_DIR_BASENAME}" --network --activate --allow-root;
 
           for _wp_site_i in {1..2}; do
@@ -144,7 +144,7 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
           done; unset _wp_site_i;
 
         else # Standard theme activation in this case.
-          wp plugin activate "${_wp_sharks_core_download_url}" --allow-root
+          wp plugin install "${_wp_sharks_core_download_url}" --activate --allow-root
           wp theme activate "${CI_CFG_PROJECT_DIR_BASENAME}" --allow-root;
         fi;
       fi;
