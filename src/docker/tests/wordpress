@@ -114,9 +114,11 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
         # Maybe activate network-wide.
 
         if [[ "${CI_RUN_WP}" == 'multisite' ]]; then
+          wp plugin activate http://www.websharks-inc.com/r/wp-sharks-core-latest-zip/ --network --allow-root
           wp plugin activate "${CI_CFG_PROJECT_DIR_BASENAME}" --network --allow-root;
 
         else # Standard plugin activation in this case.
+          wp plugin activate http://www.websharks-inc.com/r/wp-sharks-core-latest-zip/ --allow-root
           wp plugin activate "${CI_CFG_PROJECT_DIR_BASENAME}" --allow-root;
         fi;
       # If this is a WordPress theme.
@@ -127,9 +129,11 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
         # Maybe enable & activate network-wide.
 
         if [[ "${CI_RUN_WP}" == 'multisite' ]]; then
+          wp plugin activate http://www.websharks-inc.com/r/wp-sharks-core-latest-zip/ --network --allow-root
           wp theme enable "${CI_CFG_PROJECT_DIR_BASENAME}" --network --activate --allow-root;
 
           for _wp_site_i in {1..2}; do
+            wp plugin activate http://www.websharks-inc.com/r/wp-sharks-core-latest-zip/ --allow-root
             wp theme activate "${CI_CFG_PROJECT_DIR_BASENAME}" --url=https://"${CFG_HOST}"/site"${_wp_site_i}" --allow-root;
           done; unset _wp_site_i;
 
