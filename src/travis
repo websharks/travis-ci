@@ -25,6 +25,12 @@ fi;
 if [[ -z "${CI_RUN_PHP_VERSION:-}" ]]; then
   export CI_RUN_PHP_VERSION; CI_RUN_PHP_VERSION='7.0';
 fi;
+if [[ -n "${CI_RUN_WP:-}" && -z "${CI_RUN_WP_VERSION:-}" ]]; then
+  export CI_RUN_WP_VERSION; CI_RUN_WP_VERSION='latest';
+fi;
+if [[ -n "${CI_RUN_WP:-}" && -z "${CI_RUN_WP_SHARKS_CORE_VERSION:-}" ]]; then
+  export CI_RUN_WP_SHARKS_CORE_VERSION; CI_RUN_WP_SHARKS_CORE_VERSION='latest';
+fi;
 # Set additional config vars.
 
 export CI_CFG_PROJECT_DIR; CI_CFG_PROJECT_DIR="${TRAVIS_BUILD_DIR}";
