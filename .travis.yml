@@ -17,32 +17,32 @@ notifications:
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-# Example build matrix (default configuration).
+# Example build matrix (do NOT use, this is only an example).
 
-matrix: # Tests for an example WordPress plugin.
+# matrix: # This matrix tests an example WordPress plugin.
 
-  include: # Cover both ends of our PHP spectrum.
+#   include: # Cover both ends of our PHP spectrum.
 
-    - env: CI_RUN=PHP_VERSION=7.0,WP=standard,WP_VERSION=latest
-    - env: CI_RUN=PHP_VERSION=7.0,WP=multisite,WP_VERSION=latest
-    - env: CI_RUN=PHP_VERSION=7.0,WP=standard,WP_VERSION=nightly
-    - env: CI_RUN=PHP_VERSION=7.0,WP=multisite,WP_VERSION=nightly
+#     - env: CI_RUN=PHP_VERSION=7.0,WP=standard,WP_VERSION=latest
+#     - env: CI_RUN=PHP_VERSION=7.0,WP=multisite,WP_VERSION=latest
+#     - env: CI_RUN=PHP_VERSION=7.0,WP=standard,WP_VERSION=nightly
+#     - env: CI_RUN=PHP_VERSION=7.0,WP=multisite,WP_VERSION=nightly
 
-    - env: CI_RUN=PHP_VERSION=5.5,WP=standard,WP_VERSION=latest
-    - env: CI_RUN=PHP_VERSION=5.5,WP=multisite,WP_VERSION=latest
-    - env: CI_RUN=PHP_VERSION=5.5,WP=standard,WP_VERSION=nightly
-    - env: CI_RUN=PHP_VERSION=5.5,WP=multisite,WP_VERSION=nightly
+#     - env: CI_RUN=PHP_VERSION=5.5,WP=standard,WP_VERSION=latest
+#     - env: CI_RUN=PHP_VERSION=5.5,WP=multisite,WP_VERSION=latest
+#     - env: CI_RUN=PHP_VERSION=5.5,WP=standard,WP_VERSION=nightly
+#     - env: CI_RUN=PHP_VERSION=5.5,WP=multisite,WP_VERSION=nightly
 
-  allow_failures: # Allow nightly failures.
+#   allow_failures: # Allow nightly failures.
 
-    - env: CI_RUN=PHP_VERSION=7.0,WP=standard,WP_VERSION=nightly
-    - env: CI_RUN=PHP_VERSION=7.0,WP=multisite,WP_VERSION=nightly
+#     - env: CI_RUN=PHP_VERSION=7.0,WP=standard,WP_VERSION=nightly
+#     - env: CI_RUN=PHP_VERSION=7.0,WP=multisite,WP_VERSION=nightly
 
-    - env: CI_RUN=PHP_VERSION=5.5,WP=standard,WP_VERSION=nightly
-    - env: CI_RUN=PHP_VERSION=5.5,WP=multisite,WP_VERSION=nightly
+#     - env: CI_RUN=PHP_VERSION=5.5,WP=standard,WP_VERSION=nightly
+#     - env: CI_RUN=PHP_VERSION=5.5,WP=multisite,WP_VERSION=nightly
 
-  fast_finish: true # Before allowed failures.
+#   fast_finish: true # Before allowed failures.
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-# Custom code reinserted here via [custom] marker. Add your <custom></custom> comment markers here please.
+# Custom code reinserted here via [custom] marker. Add your <custom></custom> build matrix here.
