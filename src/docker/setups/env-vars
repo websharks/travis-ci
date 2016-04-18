@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Set an english/UTF-8 locale.
+
+export LANG=en_US.UTF-8;
+export LC_ALL=en_US.UTF-8;
+
 # Read `/etc/environment`.
 
 while read -r _line; do
