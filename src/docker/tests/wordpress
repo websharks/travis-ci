@@ -121,11 +121,15 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
         # Maybe activate network-wide.
 
         if [[ "${CI_RUN_WP}" == 'multisite' ]]; then
-          wp plugin install "${_wp_sharks_core_download_url}" --activate-network --allow-root
+          if [[ "${CI_CFG_PROJECT_DIR_BASENAME}" != 'wp-sharks-core' ]]; then
+            wp plugin install "${_wp_sharks_core_download_url}" --activate-network --allow-root;
+          fi;
           wp plugin activate "${CI_CFG_PROJECT_DIR_BASENAME}" --network --allow-root;
 
         else # Standard plugin activation in this case.
-          wp plugin install "${_wp_sharks_core_download_url}" --activate --allow-root
+          if [[ "${CI_CFG_PROJECT_DIR_BASENAME}" != 'wp-sharks-core' ]]; then
+            wp plugin install "${_wp_sharks_core_download_url}" --activate --allow-root;
+          fi;
           wp plugin activate "${CI_CFG_PROJECT_DIR_BASENAME}" --allow-root;
         fi;
       # If this is a WordPress theme.
@@ -136,7 +140,9 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
         # Maybe enable & activate network-wide.
 
         if [[ "${CI_RUN_WP}" == 'multisite' ]]; then
-          wp plugin install "${_wp_sharks_core_download_url}" --activate-network --allow-root
+          if [[ "${CI_CFG_PROJECT_DIR_BASENAME}" != 'wp-sharks-core' ]]; then
+            wp plugin install "${_wp_sharks_core_download_url}" --activate-network --allow-root;
+          fi;
           wp theme enable "${CI_CFG_PROJECT_DIR_BASENAME}" --network --activate --allow-root;
 
           for _wp_site_i in {1..2}; do
@@ -144,7 +150,9 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
           done; unset _wp_site_i;
 
         else # Standard theme activation in this case.
-          wp plugin install "${_wp_sharks_core_download_url}" --activate --allow-root
+          if [[ "${CI_CFG_PROJECT_DIR_BASENAME}" != 'wp-sharks-core' ]]; then
+            wp plugin install "${_wp_sharks_core_download_url}" --activate --allow-root;
+          fi;
           wp theme activate "${CI_CFG_PROJECT_DIR_BASENAME}" --allow-root;
         fi;
       fi;
