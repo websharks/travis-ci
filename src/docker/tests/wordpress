@@ -111,7 +111,7 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
       if [[ -z "${CI_RUN_WP_SHARKS_CORE_VERSION}" || "${CI_RUN_WP_SHARKS_CORE_VERSION}" == 'latest' ]]; then
         _wp_sharks_core_download_url=https://cdn.wpsharks.com/software/latest/wp-sharks-core/0edbcdd1d8a97a6.zip;
       elif [[ "${CI_RUN_WP_SHARKS_CORE_VERSION}" == 'bleeding-edge' ]]; then
-        _wp_sharks_core_download_url=https://cdn.wpsharks.com/software/latest/bleeding-edge/wp-sharks-core/7b6bd20dd0e4c46.zip;
+        _wp_sharks_core_download_url=https://cdn.wpsharks.com/software/bleeding-edge/wp-sharks-core/2cfeecf3eaebb8d.zip;
       else # Else take it as a specific version and build the URL based on that specific version.
         _wp_sharks_core_download_url=https://cdn.wpsharks.com/software/releases/wp-sharks-core/9dcbf3631a0cf19/v"${CI_RUN_WP_SHARKS_CORE_VERSION}".zip;
       fi;
