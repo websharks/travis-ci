@@ -13,7 +13,7 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
   rm --force --recursive /app;
   mkdir --parents /app/src;
 
-  # Download via cURL or WP-CLI (easier).
+  # Download WordPress via cURL.
 
   if [[ "${CI_RUN_WP_VERSION}" == 'nightly' ]]; then
     _download_url=https://wordpress.org/nightly-builds/wordpress-latest.zip;
@@ -29,6 +29,10 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
   rm --force --recursive /tmp/wordpress;
   rm /tmp/wordpress.zip;
   unset _download_url;
+
+  # Update to latest version of WP-CLI.
+
+  wp cli update --yes; # Force automatic update.
 
   # Install and configure WordPress.
 
@@ -168,7 +172,7 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
   find /app -type d -exec chmod 2775 {} \;
   find /app -type f -exec chmod 664 {} \;
 
-  chown --recursive www-data /app/src;
+  chown --recursive www-data:app /app/src;
   find /app/src -type d -exec chmod 2775 {} \;
   find /app/src -type f -exec chmod 664 {} \;
 fi;
