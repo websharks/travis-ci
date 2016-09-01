@@ -32,7 +32,7 @@ if [[ -n "${CI_RUN_WP:-}" ]]; then
 
   # Update to latest version of WP-CLI.
 
-  wp cli update --yes; # Force automatic update.
+  wp cli update --yes --allow-root; # Force automatic update.
 
   # Install and configure WordPress.
 
